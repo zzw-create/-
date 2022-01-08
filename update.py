@@ -77,18 +77,14 @@ class LocalUpdate(object):
                 list_q1.append(list)
             for i in range(len(list_q1)):
                 a = Q2[list_q2[i]]
-                #print("aaa",a)
                 c = Q1[list_q1[i]]
-                #print("cccc",c)
                 r = torch.max(abs(a - c))
                 # r = np.floor(r * 1e4)//1e4
-                print("rrrrrrrrrr", r)
                 delta = r / np.floor(2 ** (b - 1))
                 # delta = np.floor(delta * 1e4)//1e4
-                print("delta", delta)
                 quant = c - r + 2 * delta * np.floor((a - c + r + delta) / (2 * delta))
                 # quant = np.floor(quant * 1e4)// 1e4
-                # print("quant----------",quant)
+            
                 Q2[list_q2[i]] = np.floor(quant * 1e4)/1e4
             return Q2
 
@@ -111,9 +107,6 @@ class LocalUpdate(object):
 
                 model.zero_grad()
                 log_probs = model(images)
-                #teacher_output = teacher_model(images)
-                #teacher_output = teacher_output.detach()  # 切断老师网络的反向传播，感谢B站“淡淡的落”的提醒
-                #loss = distillation(log_probs, labels, teacher_output, temp=5.0, alpha=1)
                 loss = self.criterion(log_probs, labels)
                 loss.backward()
                 optimizer.step()
@@ -130,7 +123,6 @@ class LocalUpdate(object):
         # if temp_q1[client_name]==0:
         #     temp_q1[client_name]= model.state_dict()
         #     ww = model.state_dict()
-        #     print("第一轮未量化")
         # else:
         #     ww = quantize(model.state_dict(), temp_q1[client_name], 6)
         #     temp_q1[client_name] = ww
@@ -139,8 +131,7 @@ class LocalUpdate(object):
         # else:
         #     print("ave_loss",ave_loss)
         #     ww=0
-        # print("wwwwwwww",ww)
-        # print("quant_weight",temp_q1[client_name])
+
         #-----------------------------------------------------------
         # copy almost all full precision kernels of the model
         # all_fp_kernels = [
