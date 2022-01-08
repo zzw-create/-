@@ -60,12 +60,12 @@ if __name__ == '__main__':
     # Training
     # Set optimizer and criterion
     if args.optimizer == 'sgd':
-        #optimizer = torch.optim.SGD(global_model.parameters(), lr=args.lr,
-         #                           momentum=0.5)#84.14
-        #optimizer=SMD_opt.SMD_compress(global_model.parameters(),lr=args.lr,momentum=0.5)#76.43
-        #optimizer = SMD_opt.SGD(global_model.parameters(), lr=args.lr, momentum=0.5)#83.96
-        #optimizer = SMD_opt.SMD_qnorm(global_model.parameters(), lr=args.lr, momentum=0.5)#93.43
-        optimizer = SMD_opt.LinearCoupl(global_model.parameters(), lr=args.lr, momentum=0.5)#94.52
+        optimizer = torch.optim.SGD(global_model.parameters(), lr=args.lr,
+                                    momentum=0.5)
+        #optimizer=SMD_opt.SMD_compress(global_model.parameters(),lr=args.lr,momentum=0.5)
+        #optimizer = SMD_opt.SGD(global_model.parameters(), lr=args.lr, momentum=0.5)
+        #optimizer = SMD_opt.SMD_qnorm(global_model.parameters(), lr=args.lr, momentum=0.5)
+        #optimizer = SMD_opt.LinearCoupl(global_model.parameters(), lr=args.lr, momentum=0.5)
     elif args.optimizer == 'adam':
         optimizer = torch.optim.Adam(global_model.parameters(), lr=args.lr,
                                      weight_decay=1e-4)
@@ -118,12 +118,3 @@ if __name__ == '__main__':
     plt.ylabel('baseline Test Accuracy')
     plt.savefig('../save/nn_{}_{}_{}.png'.format(args.dataset, args.model,
                                                  args.epochs))
-    #torch.save(global_model,'mlp.h5')
-    with open("Fe_student.txt", 'a') as f:
-        for temp_zero in test_accuracy:
-            f.write(str(temp_zero) + "\n")
-        f.close()
-    #torch.save(global_model,'teachernet.h5')
-    #torch.save(global_model,'teachernet.pt')
-    #torch.save(global_model.state_dict(),'teachernet.pkl')
-
