@@ -86,7 +86,7 @@ if __name__ == '__main__':
         global_model.train()
         m = max(int(args.frac * args.num_users), 1)
         idxs_users = np.random.choice(range(args.num_users), m, replace=False)
-        print("idxs_userrrrrr",idxs_users)
+  
 
         for idx in idxs_users:
             local_model = LocalUpdate(args=args, dataset=train_dataset,
@@ -175,13 +175,4 @@ if __name__ == '__main__':
     plt.savefig('../save/fed_{}_{}_{}_C[{}]_iid[{}]_E[{}]_B[{}]_acc.png'.
                 format(args.dataset, args.model, args.epochs, args.frac,
                        args.iid, args.local_ep, args.local_bs))
-    with open("student_sgd_kdh5_mnist.txt", 'a') as f:
-        for temp_zero in test_accuracy:
-            f.write(str(temp_zero) + "\n")
-        f.close()
-    # with open("quantloss100.txt", 'a') as f:
-    #     for temp_zero in train_loss:
-    #         f.write(str(temp_zero) + "\n")
-    #     f.close()
-    #torch.save(global_model,'cnnmnist.h5')
 
